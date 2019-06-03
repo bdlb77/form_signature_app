@@ -1,0 +1,26 @@
+.signature {
+  width: 80vw;
+  margin: 2rem auto;
+  form {
+    width: 40%;
+    margin: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fieldset {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  &__pad__body {
+    height: 300px;
+    width: 600px;
+  }
+  canvas {
+    background: gray;
+    height: 100%;
+    width: 100%;
+  }
+}
