@@ -1,2 +1,0 @@
-class FormDatum < ApplicationRecord
-end
