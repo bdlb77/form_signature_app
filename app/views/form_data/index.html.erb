@@ -2,26 +2,30 @@
 <div class="signature">
   <form name='submit-to-google-sheets' class="signature__form">
     <label for="firstName">First Name</label>
-    <input type="text" name="firstName" placeholder="First Name"/>
+    <input type="text" name="firstName" placeholder="First Name" required="true"/>
     <label for="lastName">Last Name</label>
-    <input type="text" name="lastName" placeholder="Last Name"/>
+    <input type="text" name="lastName" placeholder="Last Name" required="true"/>
     <label for="username">Username</label>
-    <input type="text" name="username" placeholder=" Username"/>
+    <input type="text" name="username" placeholder=" Username" required="true"/>
     <div class="fieldset">
       <fieldset>
-        <input type="checkbox" id="coding" name="coding"  value="nothing" onchange="update(this)">
+        <input type="checkbox" id="coding" name="coding" value="coding">
+        <input type="hidden" id="codingHidden" name="coding" value="not-coding">
         <label for="coding">Coding</label>
       </fieldset>
       <fieldset>
-        <input type="checkbox" id="hipster" name="hipster" value="nothing" onchange="update(this)">
+        <input type="checkbox" id="hipster" name="hipster" value="hipster">
+        <input type="hidden" id="hipsterHidden" name="hipster" value="not-hipster">
         <label for="hipster">Hipster</label>
       </fieldset>
       <fieldset>
-        <input type="checkbox" id="swag" name="swag" value="nothing" onchange="update(this)">
+        <input type="checkbox" id="swag" name="swag" value="swag">
+        <input type="hidden" id="swagHidden" name="swag" value="not-swag">
         <label for="swag">Swag</label>
       </fieldset>
       <fieldset>
-        <input type="checkbox" id="spiritual" name="spiritual" value="nothing"  onchange="update(this)" >
+        <input type="checkbox" id="spiritual" name="spiritual"  value="spiritual" >
+        <input type="hidden"  name="spiritual" value="not-spiritual" >
         <label for="spiritual">Spiritual</label>
       </fieldset>
     </div>
@@ -31,98 +35,10 @@
           <canvas></canvas>
         </div>
       </div>
-      <input type="hidden" name="signature">
+      <input type="hidden" name="signature" required="true">
     </fieldset>
     <button type="submit"id="submit-form">Submit</button>
 
   </div>
 </form>
-
-
-<script>
-  const canvas = document.querySelector('.signature canvas');
-  const signaturePad = new SignaturePad(canvas, {
-    backgroundColor: 'rgba(255, 255, 255, 0)',
-    penColor: 'rgb(0, 0, 0)'
-  });
-
-  var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-
-  // This part causes the canvas to be cleared
-  canvas.width = canvas.offsetWidth * ratio;
-  canvas.height = canvas.offsetHeight * ratio;
-  canvas.getContext("2d").scale(ratio, ratio);
-
-  const form = document.querySelector('.signature__form');
-
-  function createPDF() {
-    let coding = document.querySelector("input[name='coding']").value;
-    let swag = document.querySelector("input[name='swag']").value;
-    let hipster = document.querySelector("input[name='hipster']").value;
-    let spiritual = document.querySelector("input[name='spiritual']").value;
-
-    let firstName = document.querySelector("input[name='firstName']").value;
-    let lastName = document.querySelector("input[name='lastName']").value;
-    let username = document.querySelector("input[name='username']").value;
-    coding = coding === "on" ? "not-coding" : coding
-    swag = swag === "on" ? "not-swag" : swag
-    hipster = hipster === "on" ? "not-hipster" : hipster
-    spiritual = spiritual === "on" ? "not-spiritual" : spiritual
-
-    let image = signaturePad.toDataURL(); // save image as JPEG
-    let signature = document.querySelector("input[name='signature']").value = image
-
-    var doc = new jsPDF();
-
-    doc.text("First Name:", 10 , 10)
-    doc.text(firstName, 50 , 10)
-
-    doc.text("Last Name:", 10 , 30)
-    doc.text(lastName, 50 , 30)
-
-    doc.text("Username:", 10 , 50)
-    doc.text(username, 50 , 50)
-
-    doc.text("Coding:", 10, 70)
-    doc.text(coding, 35, 70)
-
-    doc.text("Swag:", 90, 70)
-    doc.text(swag, 115, 70)
-
-    doc.text("hipster:", 10, 90)
-    doc.text(hipster, 35, 90)
-
-    doc.text("spiritual:", 90, 90)
-    doc.text(spiritual, 115, 90)
-
-    doc.text("Signature: ", 10, 115)
-    doc.addImage(signature, 'PNG', 10, 125, 100, 40)
-    doc.save('new-pdf.pdf')
-
-  }
-
-  function postToGoogleSheets(){
-    let image = signaturePad.toDataURL(); // save image as JPEG
-    document.querySelector("input[name='signature']").value = image;
-    const url = 'https://script.google.com/macros/s/AKfycbw4FIig6VxvFDQRMRPqa4opEnVMiLpYaVbSaHNYZbpHwItsW5U/exec';
-    debugger
-    fetch(url, { method: 'POST', body: new FormData(form)})
-      .then(response => console.log('Success!', response))
-      .catch(error => console.error('Error!', error.message));
-  }
-  function update(input) {
-    input.value = input.checked ? input.name : `not-${input.name}`;
-  }
-
-  form.addEventListener('submit', e => {
-    // let scriptURL = 'https://script.google.com/macros/s/AKfycbw4FIig6VxvFDQRMRPqa4opEnVMiLpYaVbSaHNYZbpHwItsW5U/exec'
-    e.preventDefault();
-    postToGoogleSheets();
-  })
-
-
-
-
-
-
-</script>
+<%= javascript_pack_tag "form.js" %>
