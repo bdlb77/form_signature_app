@@ -1,22 +1,58 @@
 .signature {
   width: 80vw;
   margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+
   form {
-    width: 40%;
+    width: 50%;
+    box-shadow: 0 0 5px rgba(77,77,77,0.3);
     margin: inherit;
+    height: 80vh;
     display: flex;
     flex-direction: column;
+    background-color: #efefef;
+    input {
+    border: 0;
+    border-bottom: 2px solid #8f1e16;
+    background: transparent;
+    outline: 0;
+    font-size: 1rem;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    }
+    label {
+      font-size: 1.5rem;
+    }
+
+    button {
+      margin-top: 2rem;
+      background: transparent;
+      color: #8f1e16;
+      padding: 1rem 2rem;
+      transition: all 0.4s ease;
+      border: none;
+      box-shadow: 0 7px 5px rgba(77,77,77,0.3);
+      &:hover{
+        background: rgba(77,77,77,0.3);
+      };
+    }
   }
 
-  .fieldset {
+  .fieldsets {
+    width: 80%;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
   }
 
+
   &__pad__body {
     height: 300px;
     width: 600px;
+    margin: 0 auto;
+    border: 2px solid #8f1e16;
   }
   canvas {
     background: gray;
