@@ -9,6 +9,7 @@ class PdfMailer < ApplicationMailer
     @last_name = params[:last_name]
     @birthday = params[:birthday]
     @pdf = params[:pdf]
+    p " BIRTHDAY:: #{@birthday}"
     attachments["#{@first_name}-#{@last_name}-#{@birthday}.pdf"] = File.read(@pdf.tempfile)
     mail to: "bdlb@utexas.edu", subject: "Bryan Leighton's Signature"
   end

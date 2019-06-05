@@ -3,7 +3,6 @@ class PagesController < ApplicationController
   end
 
   def send_email
-    p "MADE IT HEREEEEEEEEEEE"
     mail = PdfMailer.with(first_name: params[:first_name],
       last_name: params[:last_name],
       pdf: params[:pdf],

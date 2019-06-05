@@ -43,10 +43,10 @@ function createPDF(signaturePad) {
 
 	doc.text('Signature: ', 10, 115);
 	doc.addImage(signature, 'PNG', 10, 125, 100, 40);
-	doc.save(`${firstName}-${lastName}.pdf`);
+	doc.save(`${firstName}-${lastName}-${birthday}.pdf`);
 
   let formattedPDF = doc.output('blob');
-  sendPDF(formattedPDF, firstName, lastName)
+  sendPDF(formattedPDF, firstName, lastName, birthday)
 }
 let sendPDF = async function(pdf, firstName, lastName, birthday){
   const url = document.querySelector("[name='submit-to-google-sheets']").dataset.url;
