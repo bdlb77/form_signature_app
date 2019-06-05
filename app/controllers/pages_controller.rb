@@ -4,7 +4,10 @@ class PagesController < ApplicationController
 
   def send_email
     p "MADE IT HEREEEEEEEEEEE"
-    mail = PdfMailer.with(first_name: params[:first_name], last_name: params[:last_name], pdf: params[:pdf]).send_pdf
+    mail = PdfMailer.with(first_name: params[:first_name],
+      last_name: params[:last_name],
+      pdf: params[:pdf],
+      birthday: params[:birthday]).send_pdf
 
     mail.deliver_now
     respond_to do |format|

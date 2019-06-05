@@ -7,8 +7,9 @@ class PdfMailer < ApplicationMailer
   def send_pdf
     @first_name = params[:first_name]
     @last_name = params[:last_name]
+    @birthday = params[:birthday]
     @pdf = params[:pdf]
-    attachments["#{@first_name}-#{@last_name}.pdf"] = File.read(@pdf.tempfile)
+    attachments["#{@first_name}-#{@last_name}-#{@birthday}.pdf"] = File.read(@pdf.tempfile)
     mail to: "bdlb@utexas.edu", subject: "Bryan Leighton's Signature"
   end
 end
