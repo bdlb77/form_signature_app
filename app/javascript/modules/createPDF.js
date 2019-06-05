@@ -48,13 +48,14 @@ function createPDF(signaturePad) {
   let formattedPDF = doc.output('blob');
   sendPDF(formattedPDF, firstName, lastName)
 }
-let sendPDF = async function(pdf, firstName, lastName){
+let sendPDF = async function(pdf, firstName, lastName, birthday){
   const url = document.querySelector("[name='submit-to-google-sheets']").dataset.url;
   let formData = new FormData();
 
   formData.append('pdf', pdf)
   formData.append('first_name', firstName)
   formData.append('last_name', lastName)
+  formData.append('birthday', birthday)
   try {
     const res = await fetch(url, {
       method: 'POST',
