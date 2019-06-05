@@ -3,13 +3,10 @@
 </script>
 <div class="signature">
   <form name='submit-to-google-sheets' class="signature__form" data-url="<%= send_email_path %>">
-    <label for="firstName">First Name</label>
     <input type="text" name="firstName" placeholder="First Name" required="true"/>
-    <label for="lastName">Last Name</label>
     <input type="text" name="lastName" placeholder="Last Name" required="true"/>
-    <label for="username">Username</label>
-    <input type="text" name="username" placeholder=" Username" required="true"/>
-    <div class="fieldset">
+    <input id="birthday" type="text" name="birthday" placeholder="Birthday" required="true"/>
+    <div class="fieldsets">
       <fieldset>
         <input type="checkbox" id="coding" name="coding" value="coding">
         <input type="hidden" id="codingHidden" name="coding" value="not-coding">

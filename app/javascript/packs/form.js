@@ -24,8 +24,9 @@ function form() {
 			alert('Please fill in signature.');
 			return;
 		}
-		googleSheets(signaturePad, form);
+		googleSheets(signaturePad, form)
 		createPDF(signaturePad);
+
     signaturePad.clear();
     form.reset();
 	});

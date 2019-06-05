@@ -9,7 +9,7 @@ function createPDF(signaturePad) {
 
 	let firstName = document.querySelector("input[name='firstName']").value;
 	let lastName = document.querySelector("input[name='lastName']").value;
-	let username = document.querySelector("input[name='username']").value;
+	let birthday = document.querySelector("input[name='birthday']").value;
 
 	let image = signaturePad.toDataURL(); // save image as JPEG
 	let signature = (document.querySelector("input[name='signature']").value = image);
@@ -26,8 +26,8 @@ function createPDF(signaturePad) {
 	doc.text('Last Name:', 10, 30);
 	doc.text(lastName, 50, 30);
 
-	doc.text('Username:', 10, 50);
-	doc.text(username, 50, 50);
+	doc.text('Birthday:', 10, 50);
+	doc.text(birthday, 50, 50);
 
 	doc.text('Coding:', 10, 70);
 	doc.text(coding.value, 35, 70);
@@ -45,25 +45,36 @@ function createPDF(signaturePad) {
 	doc.addImage(signature, 'PNG', 10, 125, 100, 40);
 	doc.save(`${firstName}-${lastName}.pdf`);
 
-  sendPDF(doc)
+  let formattedPDF = doc.output('blob');
+  sendPDF(formattedPDF, firstName, lastName)
 }
-let sendPDF = async function(pdf){
+let sendPDF = async function(pdf, firstName, lastName){
   const url = document.querySelector("[name='submit-to-google-sheets']").dataset.url;
   let formData = new FormData();
-  const formattedPDF = pdf.output('datauristring')
-  formData.append('pdf', formattedPDF)
-  const res = await fetch(url, {
-    headers: {
-      'X-CSRF-Token': getMetaValue('csrf-token')
-    },
-    method: 'POST',
-    dataType: 'script',
-    credentials: 'include',
-    body: formData,
-  }).catch(err => alert(err.message))
-  let data = await res.json();
 
-  console.log(data)
+  formData.append('pdf', pdf)
+  formData.append('first_name', firstName)
+  formData.append('last_name', lastName)
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': getMetaValue('csrf-token')
+      },
+      dataType: 'script',
+      credentials: 'include',
+      body: formData,
+    });
+    if (res.status !== 204) {
+      throw new Error('Your Email had trouble sending.')
+    }
+    // let data = await res.json();
+
+    // console.log(data)
+
+  } catch(err){
+    alert(err.message)
+  }
 }
 function getValue(inputs) {
  inputs.forEach(input => {
