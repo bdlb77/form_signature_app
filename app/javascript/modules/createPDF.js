@@ -18,6 +18,8 @@ function createPDF(signaturePad) {
 
 	var doc = new jsPDF();
 
+
+
 	doc.text('First Name:', 10, 10);
 	doc.text(firstName, 50, 10);
 
@@ -41,14 +43,38 @@ function createPDF(signaturePad) {
 
 	doc.text('Signature: ', 10, 115);
 	doc.addImage(signature, 'PNG', 10, 125, 100, 40);
-	doc.save('new-pdf.pdf');
+	doc.save(`${firstName}-${lastName}.pdf`);
+
+  sendPDF(doc)
+}
+let sendPDF = async function(pdf){
+  const url = document.querySelector("[name='submit-to-google-sheets']").dataset.url;
+  let formData = new FormData();
+  const formattedPDF = pdf.output('datauristring')
+  formData.append('pdf', formattedPDF)
+  const res = await fetch(url, {
+    headers: {
+      'X-CSRF-Token': getMetaValue('csrf-token')
+    },
+    method: 'POST',
+    dataType: 'script',
+    credentials: 'include',
+    body: formData,
+  }).catch(err => alert(err.message))
+  let data = await res.json();
+
+  console.log(data)
 }
 function getValue(inputs) {
-	inputs.forEach(input => {
-		if (input.checked) return input;
+ inputs.forEach(input => {
+  if (input.checked) return input;
 
-		return (input.value = `not-${input.name}`);
-	});
+  return (input.value = `not-${input.name}`);
+});
 }
 
+function getMetaValue(name) {
+  const element = document.head.querySelector(`meta[name="${name}"]`);
+  return element.getAttribute('content');
+}
 export default createPDF;

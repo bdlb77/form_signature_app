@@ -26,6 +26,8 @@ function form() {
 		}
 		googleSheets(signaturePad, form);
 		createPDF(signaturePad);
+    signaturePad.clear();
+    form.reset();
 	});
 }
 form();
